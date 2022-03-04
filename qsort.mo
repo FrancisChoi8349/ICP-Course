@@ -28,7 +28,7 @@ actor {
         sort(arr,left+1,high);
     };
 
-    public func quickSort(arr:[Int]) : async [Int] {
+    public func qsort(arr:[Int]) : async [Int] {
         qSort(arr)
     };
 };
