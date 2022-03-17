@@ -45,24 +45,22 @@ public type Message = {
     };
     
     
-public shared query (msg) func posts(since: Time.Time) : async [Message]{ //返回所有发布的消息,返回内容是一个 Message（文本类）数组
-        assert(Principal.toText(msg.caller)== "2ojav-lgupo-mb33o-3b2n7-2wriz-qeehl-jo7ec-7b2gz-zoass-y42db-yae");
+    public shared query (msg) func posts() : async [Message]{ //返回所有发布的消息,返回内容是一个 Message（文本类）数组
+        //assert(Principal.toText(msg.caller)== "2ojav-lgupo-mb33o-3b2n7-2wriz-qeehl-jo7ec-7b2gz-zoass-y42db-yae");
         var res: List.List<Message> = List.nil();
 
         for(msg in Iter.fromList(messages))
         {
-            if(msg.time > since)
+            //if(msg.time > since)
             res := List.push(msg,res);
         };
-
         List.toArray(res)
     };
-
+    
     public shared (msg) func timeline(since:Time.Time) : async [Message]{  //将所有关注博主的内容全部输出
-        //assert(Principal.toText(msg.caller)== "2ojav-lgupo-mb33o-3b2n7-2wriz-qeehl-jo7ec-7b2gz-zoass-y42db-yae");
-
+        assert(Principal.toText(msg.caller)== "2ojav-lgupo-mb33o-3b2n7-2wriz-qeehl-jo7ec-7b2gz-zoass-y42db-yae");
         var all : List.List<Message> = List.nil(); //建立一个Message（Text）类型的链表  message现在是链表头
-
+        let time : Int = since;
         for(id in Iter.fromList(followed)){ //id为当前遍历的Principal; 
                                             //通过Iter迭代器遍历当前canister的链表followed中所有关注博主的Principal
 
@@ -76,5 +74,4 @@ public shared query (msg) func posts(since: Time.Time) : async [Message]{ //返�
         };
         List.toArray(all); //将文本类型的all链表 转换成文本类型的数组[Message]  返回结果
     };
-
 };
